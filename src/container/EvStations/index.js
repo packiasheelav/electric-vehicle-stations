@@ -9,7 +9,7 @@ class Map extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			apiKey: 'AIzaSyCGfeG6ePnKR9c98Ubo-w3SNDTaGAiZbrM',
+			apiKey: 'xxxxxxxxx-xxxxxxxx',
 			map: null,
 			mapConfig: {
 				center: { lat: 60.192059, lng: 24.945831 },
