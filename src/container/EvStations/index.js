@@ -153,7 +153,6 @@ class Map extends Component {
 			<div>
 				<div ref="map" id="mapId" />
 				<ModalBoxComponent
-					ref={this.node}
 					show={this.state.show}
 					closeModelbox={this.closeModelbox}
 					statusDetail={this.state.statusDetail}
