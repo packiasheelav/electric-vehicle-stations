@@ -4,7 +4,7 @@ import './ModalBox.css';
 const ModalBoxComponent = ({ closeModelbox, show, statusDetail, handleStationClick, stationDetailInfo }) => {
 
 	if (!statusDetail || !stationDetailInfo) {
-		return <h2>Loading...</h2>;
+		return <div>loading...</div>;
 	}
 
 	const showHideClassName = show ? 'modal display-block' : 'modal display-none';
@@ -30,7 +30,7 @@ const ModalBoxComponent = ({ closeModelbox, show, statusDetail, handleStationCli
 					if (eves.id === ev.id) {
 						return (
 							(typeof eves.connectors[0] !== undefined) ?(
-							<div>
+							<div key={eves.id}>
 								<div className='connectorStatus'>Type : {eves.connectors[0].type}</div>
 								<div className='connectorStatus'>Power : {eves.connectors[0].maxKw} maxKw</div>
 								<div className='connectorStatus'>CurrentType :{eves.connectors[0].currentType} </div>
@@ -44,7 +44,7 @@ const ModalBoxComponent = ({ closeModelbox, show, statusDetail, handleStationCli
 	));
 
 	return (
-		<div id="modalId" className={showHideClassName} onClick={closeModelbox}>
+		<div id="modalId" className={showHideClassName}>
 			{stationDetailInfo !== undefined ? (
 				<div className="modal-content">
 					<div className="modal-header">

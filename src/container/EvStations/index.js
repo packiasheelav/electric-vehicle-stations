@@ -4,12 +4,17 @@ import ModalBoxComponent from '../../components/ModalBoxComponent';
 import Error from '../../components/Error';
 import './EvStations.css';
 
+const STATIONS_URL = 'https://api.virta.fi/v4/stations';
+const STATIONS_STATUS_URL = 'https://api.virta.fi/v4/stations/status';
+const STATION_URL = 'https://api.virta.fi/v4/stations/';
+
 class Map extends Component {
+	node = React.createRef();
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			apiKey: 'xxxxxxxxx-xxxxxxxx',
+			apiKey: 'AIzaSyCGfeG6ePnKR9c98Ubo-w3SNDTaGAiZbrM',
 			map: null,
 			mapConfig: {
 				center: { lat: 60.192059, lng: 24.945831 },
@@ -33,18 +38,18 @@ class Map extends Component {
 	async componentDidMount() {
 		try {
 			const [stationsResponse, stationsStatusResponse] = await Promise.all([
-				fetch(`https://api.virta.fi/v4/stations`),
-				fetch(`https://api.virta.fi/v4/stations/status`)
+				fetch(STATIONS_URL),
+				fetch(STATIONS_STATUS_URL)
 			]);
 
 			if (!stationsResponse.ok) {
-				throw Error("StationsResponse Error : " + stationsResponse.statusText);
+				throw Error('StationsResponse Error : ' + stationsResponse.statusText);
 			} else {
 				console.log('ok');
 			}
 
 			if (!stationsStatusResponse.ok) {
-				throw Error("StatusResponse error : " + stationsStatusResponse.statusText);
+				throw Error('StatusResponse error : ' + stationsStatusResponse.statusText);
 			} else {
 				console.log('ok');
 			}
@@ -56,10 +61,9 @@ class Map extends Component {
 			window.initMap = this.initMap;
 			this.addScriptTag(
 				'https://maps.googleapis.com/maps/api/js?key=' +
-				this.state.apiKey +
-				'&libraries=places&callback=initMap'
+					this.state.apiKey +
+					'&libraries=places&callback=initMap'
 			);
-
 		} catch (error) {
 			console.log(error);
 			this.setState({ error, isLoading: true });
@@ -80,9 +84,9 @@ class Map extends Component {
 		});
 
 		this.state.dataStations.map(dataStation =>
-			this.createMarker(dataStation, this.GetStatusByStationId(dataStation.id)))
+			this.createMarker(dataStation, this.GetStatusByStationId(dataStation.id))
+		);
 	};
-
 
 	GetStatusByStationId(stationId) {
 		for (var i = 0; i < this.state.dataStationsStatus.length; i++) {
@@ -110,29 +114,26 @@ class Map extends Component {
 		this.state.map.panTo({ lat: this.state.mapConfig.center.lat, lng: this.state.mapConfig.center.lng });
 	}
 
-
 	async GetStationInfo(id) {
 		try {
-			const [stationsResponse] = await Promise.all([
-				fetch(`https://api.virta.fi/v4/stations/` + id)
-			]);
+			const [stationsResponse] = await Promise.all([fetch(STATION_URL + id)]);
 			if (!stationsResponse.ok) {
 				throw Error(stationsResponse.statusText);
 			} else {
 				console.log('ok');
 			}
 			const stationDetailInfo = await stationsResponse.json();
-			this.setState({ stationDetailInfo: stationDetailInfo })
+			this.setState({ stationDetailInfo: stationDetailInfo });
 		} catch (error) {
 			console.log(error);
-			this.setState({ stationDetailInfo: "" })
+			this.setState({ stationDetailInfo: '' });
 		}
 	}
 
 	showModalBox = id => {
 		for (var i = 0; i < this.state.markers.length; i++) {
 			if (this.state.markers[i].stationDataId === id) {
-				this.GetStationInfo(id)
+				this.GetStationInfo(id);
 				this.setState({
 					statusDetail: this.state.markers[i].statusData
 				});
@@ -143,19 +144,16 @@ class Map extends Component {
 		this.setState({ show: true });
 	};
 
-	close = () => {
-		this.setState({ show: false });
-	}
-
 	closeModelbox = () => {
 		this.setState({ show: false });
-	}
+	};
 
 	renderStationsData() {
 		return (
 			<div>
 				<div ref="map" id="mapId" />
 				<ModalBoxComponent
+					ref={this.node}
 					show={this.state.show}
 					closeModelbox={this.closeModelbox}
 					statusDetail={this.state.statusDetail}
@@ -169,9 +167,7 @@ class Map extends Component {
 		const { isLoading, error } = this.state;
 
 		if (error) {
-			return (
-				<Error error={error} />
-			);
+			return <Error error={error} />;
 		}
 
 		if (isLoading) {

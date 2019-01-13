@@ -1,7 +1,7 @@
 
  body {
   font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
-  background-color: #25D366;
+  background-color: #7ab800;
   color: #fff;
   -moz-font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
@@ -17,7 +17,7 @@
     margin: -75px 0 0 -75px;
     border: 16px solid #f3f3f3;
     border-radius: 50%;
-    border-top: 16px solid #25D366;
+    border-top: 16px solid #7ab800;
     width: 120px;
     height: 120px;
     -webkit-animation: spin 2s linear infinite;
