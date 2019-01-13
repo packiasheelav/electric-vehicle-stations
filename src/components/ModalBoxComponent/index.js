@@ -44,9 +44,10 @@ const ModalBoxComponent = ({ closeModelbox, show, statusDetail, handleStationCli
 	));
 
 	return (
-		<div id="modalId" className={showHideClassName}>
+		<div className={showHideClassName}>
+			<div className="overlay" onClick={closeModelbox} />
 			{stationDetailInfo !== undefined ? (
-				<div className="modal-content">
+				<div className="modal-content" >
 					<div className="modal-header">
 						<span className="close" onClick={closeModelbox}>
 							&times;
@@ -60,7 +61,6 @@ const ModalBoxComponent = ({ closeModelbox, show, statusDetail, handleStationCli
 						<div className="evsesId">{evDetail}</div>
 					</div>
 					<div className="modal-footer">
-
 					</div>
 				</div>
 			) : null}
