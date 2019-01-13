@@ -1,5 +1,9 @@
+
 # Electric Vehicle-Charging Stations-map (React.js)
 The main goal is to display the electric Vehicle charging stations in the map and while clicking any ev stations in the map it should give the detail of the stations.the detail of the stations include its status and information of each charger.
+
+ **Demo version can see** [here](http://my-evs-dns.s3-website-eu-west-1.amazonaws.com/) 
+
 ## How to run in development mode
 * fork the project
 
