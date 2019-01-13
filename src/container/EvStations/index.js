@@ -35,7 +35,11 @@ class Map extends Component {
 		};
 	}
 
-	async componentDidMount() {
+	componentDidMount() {
+		this.fetchStations();
+	}
+
+	async fetchStations() {
 		try {
 			const [stationsResponse, stationsStatusResponse] = await Promise.all([
 				fetch(STATIONS_URL),
@@ -53,6 +57,7 @@ class Map extends Component {
 			} else {
 				console.log('ok');
 			}
+
 			const jsonStations = await stationsResponse.json();
 			const jsonStationsStatus = await stationsStatusResponse.json();
 			this.setState({ dataStations: jsonStations, isLoading: false });
@@ -70,15 +75,7 @@ class Map extends Component {
 		}
 	}
 
-	addScriptTag(src) {
-		let ref = window.document.getElementsByTagName('script')[0];
-		let script = window.document.createElement('script');
-		script.src = src;
-		script.async = true;
-		ref.parentNode.insertBefore(script, ref);
-	}
-
-	initMap = () => {
+  initMap = () => {
 		this.setState({
 			map: new window.google.maps.Map(this.refs.map, this.state.mapConfig)
 		});
@@ -86,15 +83,14 @@ class Map extends Component {
 		this.state.dataStations.map(dataStation =>
 			this.createMarker(dataStation, this.GetStatusByStationId(dataStation.id))
 		);
-	};
-
-	GetStatusByStationId(stationId) {
-		for (var i = 0; i < this.state.dataStationsStatus.length; i++) {
-			if (this.state.dataStationsStatus[i].id === stationId) {
-				return this.state.dataStationsStatus[i];
-			}
-		}
-		return null;
+  };
+  
+	addScriptTag(src) {
+		let ref = window.document.getElementsByTagName('script')[0];
+		let script = window.document.createElement('script');
+		script.src = src;
+		script.async = true;
+		ref.parentNode.insertBefore(script, ref);
 	}
 
 	createMarker(stationData, statusData) {
@@ -106,12 +102,20 @@ class Map extends Component {
 			stationDataId: stationData.id,
 			statusData: statusData
 		});
-		if (this.state.stationDetailId !== undefined) {
-			window.google.maps.event.addListener(marker, 'click', () => this.showModalBox(stationData.id));
-			window.google.maps.event.addListener(window, 'click', () => this.closeModecloselbox());
-		}
+
+		window.google.maps.event.addListener(marker, 'click', () => this.showModalBox(stationData.id));
+
 		this.state.markers.push(marker);
 		this.state.map.panTo({ lat: this.state.mapConfig.center.lat, lng: this.state.mapConfig.center.lng });
+	}
+
+	GetStatusByStationId(stationId) {
+		for (var i = 0; i < this.state.dataStationsStatus.length; i++) {
+			if (this.state.dataStationsStatus[i].id === stationId) {
+				return this.state.dataStationsStatus[i];
+			}
+		}
+		return null;
 	}
 
 	async GetStationInfo(id) {

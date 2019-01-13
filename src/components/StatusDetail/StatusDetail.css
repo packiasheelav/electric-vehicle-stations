@@ -1,0 +1,63 @@
+.evsesId {
+	display: grid;
+	grid-template-columns: 1.25fr 1.25fr 1.25fr;
+	text-align: center;
+	justify-self: stretch;
+	color: rgb(66, 66, 66);
+}
+
+.stationId {
+	padding: 10px;
+	height: 15px;
+	width: 90px;
+	margin: 1px;
+	text-align: center;
+	cursor: pointer;
+	list-style-type: none;
+	background-color: #7AB800;
+	color: #ffffff;
+}
+.stationId:hover {
+	background-color: #aadaff;
+}
+
+.stationAvailable {
+	background-color: #7AB800;
+}
+
+.stationBusy {
+	/* background-color: #e95814; */
+	opacity: 0.4;
+	pointer-events: none;
+}
+
+.connectorStatus-0 {
+	color: black;
+	text-align: left;
+}
+
+.connectorStatus-1 {
+	color: rgb(40, 243, 40);
+	text-align: left;
+}
+
+.connectorStatus-2 {
+	color: red;
+	text-align: left;
+}
+
+.connectorStatus {
+	color: rgb(66, 66, 66);
+	font-size: 13px;
+	text-align: left;
+}
+
+.display-block {
+	display: block;
+}
+
+.display-none {
+	display: none;
+}
+
+

@@ -1,4 +1,5 @@
 import React from 'react';
+import StatusDetails from '../StatusDetail';
 import './ModalBox.css';
 
 const ModalBoxComponent = ({ closeModelbox, show, statusDetail, handleStationClick, stationDetailInfo }) => {
@@ -7,44 +8,8 @@ const ModalBoxComponent = ({ closeModelbox, show, statusDetail, handleStationCli
 		return <div>loading...</div>;
 	}
 
-	const showHideClassName = show ? 'modal display-block' : 'modal display-none';
-	const renderConnectorStatus = (param) => {
-		switch (param) {
-			case 1:
-				return 'Available';
-			case 2:
-				return 'Busy';
-			default:
-				return 'Disconnected';
-		}
-	};
-
-	const evDetail = statusDetail.evses.map((ev, index) => (
-		<div key={ev.id}>
-			<div className={ev.status === 1 ? 'stationAvailable stationId' : 'stationBusy stationId'} onClick={() => handleStationClick(ev.id)}>
-				{ev.id}
-			</div>
-			<div className={'connectorStatus-' + ev.status}>{renderConnectorStatus(ev.status)}</div>
-			{
-				stationDetailInfo.evses.map((eves, index) => {
-					if (eves.id === ev.id) {
-						return (
-							(typeof eves.connectors[0] !== undefined) ?(
-							<div key={eves.id}>
-								<div className='connectorStatus'>Type : {eves.connectors[0].type}</div>
-								<div className='connectorStatus'>Power : {eves.connectors[0].maxKw} maxKw</div>
-								<div className='connectorStatus'>CurrentType :{eves.connectors[0].currentType} </div>
-								<p />
-							</div>) : null 
-						);
-					}
-				})
-			}
-		</div>
-	));
-
 	return (
-		<div className={showHideClassName}>
+		<div className={show ? 'modal display-block' : 'modal display-none'}>
 			<div className="overlay" onClick={closeModelbox} />
 			{stationDetailInfo !== undefined ? (
 				<div className="modal-content" >
@@ -58,7 +23,7 @@ const ModalBoxComponent = ({ closeModelbox, show, statusDetail, handleStationCli
 						<div>{stationDetailInfo.openHours}</div>
 					</div>
 					<div className="modal-body">
-						<div className="evsesId">{evDetail}</div>
+					<StatusDetails statusDetail={statusDetail} stationDetailInfo={stationDetailInfo}/>
 					</div>
 					<div className="modal-footer">
 					</div>
