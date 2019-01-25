@@ -9,12 +9,10 @@ const STATIONS_STATUS_URL = 'https://api.virta.fi/v4/stations/status';
 const STATION_URL = 'https://api.virta.fi/v4/stations/';
 
 class Map extends Component {
-	node = React.createRef();
-
 	constructor(props) {
 		super(props);
 		this.state = {
-			apiKey: 'AIzaSyCGfeG6ePnKR9c98Ubo-w3SNDTaGAiZbrM',
+			apiKey: '*************-w3SNDTaGAiZbrM',
 			map: null,
 			mapConfig: {
 				center: { lat: 60.192059, lng: 24.945831 },
@@ -75,7 +73,7 @@ class Map extends Component {
 		}
 	}
 
-  initMap = () => {
+	initMap = () => {
 		this.setState({
 			map: new window.google.maps.Map(this.refs.map, this.state.mapConfig)
 		});
@@ -83,17 +81,18 @@ class Map extends Component {
 		this.state.dataStations.map(dataStation =>
 			this.createMarker(dataStation, this.GetStatusByStationId(dataStation.id))
 		);
-  };
-  
-	addScriptTag(src) {
+	};
+
+	addScriptTag = src => {
 		let ref = window.document.getElementsByTagName('script')[0];
 		let script = window.document.createElement('script');
 		script.src = src;
 		script.async = true;
 		ref.parentNode.insertBefore(script, ref);
-	}
+	};
 
-	createMarker(stationData, statusData) {
+	//creating and placing the marker
+	createMarker = (stationData, statusData) => {
 		let place = { lat: stationData.latitude, lng: stationData.longitude };
 		const marker = new window.google.maps.Marker({
 			position: place,
@@ -102,22 +101,24 @@ class Map extends Component {
 			stationDataId: stationData.id,
 			statusData: statusData
 		});
-
+		//eventlistener for each marker
 		window.google.maps.event.addListener(marker, 'click', () => this.showModalBox(stationData.id));
 
 		this.state.markers.push(marker);
+		//pan the map location according to lat and long
 		this.state.map.panTo({ lat: this.state.mapConfig.center.lat, lng: this.state.mapConfig.center.lng });
-	}
+	};
 
-	GetStatusByStationId(stationId) {
+	GetStatusByStationId = stationId => {
 		for (var i = 0; i < this.state.dataStationsStatus.length; i++) {
 			if (this.state.dataStationsStatus[i].id === stationId) {
 				return this.state.dataStationsStatus[i];
 			}
 		}
 		return null;
-	}
+	};
 
+	//fetch api for showing status of the station
 	async GetStationInfo(id) {
 		try {
 			const [stationsResponse] = await Promise.all([fetch(STATION_URL + id)]);

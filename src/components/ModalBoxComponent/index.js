@@ -2,7 +2,7 @@ import React from 'react';
 import StatusDetails from '../StatusDetail';
 import './ModalBox.css';
 
-const ModalBoxComponent = ({ closeModelbox, show, statusDetail, handleStationClick, stationDetailInfo }) => {
+const ModalBoxComponent = ({ closeModelbox, show, statusDetail,  stationDetailInfo }) => {
 
 	if (!statusDetail || !stationDetailInfo) {
 		return <div>loading...</div>;
