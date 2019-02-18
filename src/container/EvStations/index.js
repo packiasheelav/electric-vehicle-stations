@@ -4,9 +4,9 @@ import ModalBoxComponent from '../../components/ModalBoxComponent';
 import Error from '../../components/Error';
 import './EvStations.css';
 
-const STATIONS_URL = 'https://api.virta.fi/v4/stations';
-const STATIONS_STATUS_URL = 'https://api.virta.fi/v4/stations/status';
-const STATION_URL = 'https://api.virta.fi/v4/stations/';
+const STATIONS_URL = '****************';
+const STATIONS_STATUS_URL = '*******************';
+const STATION_URL = '*******************************';
 
 class Map extends Component {
 	constructor(props) {
